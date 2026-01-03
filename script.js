@@ -54,11 +54,21 @@ async function getImageList() {
 // 설문 초기화
 async function initSurvey() {
   const allImages = await getImageList();
-  selectedImages = allImages.sort(() => 0.5 - Math.random()).slice(0, SAMPLE_SIZE);
+
+  // ✅ 파일명 기준 정렬 (001.jpg, 002.jpg ...)
+  selectedImages = allImages
+    .sort((a, b) => {
+      const nameA = a.split('/').pop();
+      const nameB = b.split('/').pop();
+      return nameA.localeCompare(nameB, undefined, { numeric: true });
+    })
+    .slice(0, SAMPLE_SIZE); // 앞에서부터 순차 사용
+
   currentImage = 0;
   responses = [];
   await loadImage();
 }
+
 
 // 이미지 로딩
 function loadImage() {
