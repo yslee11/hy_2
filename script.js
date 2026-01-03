@@ -16,7 +16,7 @@ const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyIWcN_GwoQjzi_
 const SAMPLE_SIZE = 5;
 let currentImage = 0;
 let responses = [];
-let participant = { gender: "", age: "" };
+let participant = { gender: "", age: "", job: "" };
 let selectedImages = [];
 const userID = generateUserID();
 
@@ -231,14 +231,16 @@ document.addEventListener("DOMContentLoaded", () => {
   document.getElementById("startBtn").addEventListener("click", () => {
     const gender = document.querySelector('input[name="gender"]:checked');
     const age = document.getElementById("age").value;
+    const job = document.getElementById("job").value;
     
-    if (!gender || !age) {
-      alert("⚠️ 성별과 연령대를 선택해주세요.");
+    if (!gender || !age || !job) {
+      alert("⚠️ 성별, 연령대, 직업을 모두 선택해주세요.");
       return;
     }
     
     participant.gender = gender.value;
     participant.age = age;
+    participant.job = job;
     
     showPage("survey-page");
     initSurvey();
