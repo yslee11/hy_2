@@ -105,7 +105,7 @@ async function initSurvey() {
       const nameB = b.split('/').pop();
       return nameA.localeCompare(nameB, undefined, { numeric: true });
     })
-    .slice(0, SAMPLE_SIZE); // ✅ 그룹 내 앞에서 n장
+    .slice(0, 5); // ✅ 그룹 내 앞에서 n장
 
   currentImage = 0;
   responses = [];
