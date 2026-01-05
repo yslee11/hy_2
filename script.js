@@ -9,7 +9,7 @@ const GITHUB = {
 
 // Google Apps Script Web App URL 입력
 // ✅ Apps Script 코드를 수정한 후 새 배포 URL을 여기에 붙여넣으세요.
-const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxBeRgyDWbC6Ee98lmW5MpCB4fCP_7IDX4I_OcmfB3AvaPaPqztiG4tXBUs2vqlN9IhSQ/exec";
+const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyWP7J6S7BkLVaUChMCwAWcdu1jfEpGb0_l15ftqBk4bImJMVL6s4Iri7nkns6sNRZD/exec";
 
 /*****************************************************/
 
@@ -26,6 +26,29 @@ function generateUserID() {
     return v.toString(16);
   });
 }
+
+
+//점수 수집 함수
+function getScores() {
+  const metrics = ["aesthetic", "walkability", "depression", "safety"];
+  const scores = {};
+
+  for (const m of metrics) {
+    const checked = document.querySelector(`input[name="${m}"]:checked`);
+    if (!checked) return null;
+    scores[m] = parseInt(checked.value);
+  }
+  return scores;
+}
+
+
+function clearScoreSelection() {
+  document
+    .querySelectorAll('#score-form input[type="radio"]')
+    .forEach(r => r.checked = false);
+}
+
+
 
 function getImageID(url) {
   return url.split('/').pop();
@@ -126,27 +149,24 @@ function clearScoreSelection() {
 
 // 다음 질문
 async function nextQuestion() {
-  const radios = document.querySelectorAll('input[name="score"]');
-  let value = null;
-  radios.forEach(r => { if (r.checked) value = r.value; });
-  
-  if (value === null) {
-    alert("⚠️ 점수를 선택해주세요!");
+  const scores = getScores();
+
+  if (!scores) {
+    alert("⚠️ 모든 항목에 대해 점수를 선택해주세요.");
     return;
   }
 
   responses.push({
     timestamp: new Date().toISOString(),
-    userID,
-    gender: participant.gender,
-    age: participant.age,
     imageID: getImageID(selectedImages[currentImage]),
-    score: parseInt(value),
-    group: getGroupFolder(participant.gender, participant.age)
+    group: getGroupFolder(participant.gender, participant.age),
+    aesthetic: scores.aesthetic,
+    walkability: scores.walkability,
+    depression: scores.depression,
+    safety: scores.safety
   });
 
   if (currentImage >= selectedImages.length - 1) {
-    // 마지막 이미지 - 제출 처리
     await submitSurvey();
     return;
   }
@@ -154,6 +174,7 @@ async function nextQuestion() {
   currentImage++;
   loadImage();
 }
+
 
 // 이전 질문
 function prevQuestion() {
