@@ -142,11 +142,6 @@ function updateProgress() {
     `${currentImage + 1} / ${selectedImages.length}`;
 }
 
-// 점수 선택 초기화
-function clearScoreSelection() {
-  document.querySelectorAll('input[name="score"]').forEach(r => r.checked = false);
-}
-
 // 다음 질문
 async function nextQuestion() {
   const scores = getScores();
