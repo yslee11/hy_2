@@ -27,6 +27,16 @@ function generateUserID() {
   });
 }
 
+//offset 읽기/저장 함수 추가
+function getGroupOffset(group) {
+  return parseInt(localStorage.getItem(`offset_${group}`) || "0", 10);
+}
+
+function setGroupOffset(group, value) {
+  localStorage.setItem(`offset_${group}`, value);
+}
+
+
 
 //점수 수집 함수
 function getScores() {
@@ -94,28 +104,29 @@ async function getImageList() {
 async function initSurvey() {
   const allImages = await getImageList();
 
-  if (!allImages.length) {
-    alert("해당 그룹에 이미지가 없습니다.");
-    return;
-  }
-
-  // ✅ 원본 보호: 복사본 생성
   const sortedImages = [...allImages].sort((a, b) => {
     const nameA = a.split('/').pop();
     const nameB = b.split('/').pop();
     return nameA.localeCompare(nameB, undefined, { numeric: true });
   });
 
-  // ✅ 여기서만 20장으로 고정
-  selectedImages = sortedImages.slice(0, SAMPLE_SIZE);
+  const group = getGroupFolder(participant.gender, participant.age);
+  const offset = getGroupOffset(group);
 
-  console.log("🔥 최종 사용 이미지 수:", selectedImages.length);
-  console.log("🔥 이미지 목록:", selectedImages);
+  selectedImages = sortedImages.slice(
+    offset,
+    offset + SAMPLE_SIZE
+  );
+
+  console.log("📦 그룹:", group);
+  console.log("📦 offset:", offset);
+  console.log("📦 이번 이미지:", selectedImages.map(getImageID));
 
   currentImage = 0;
   responses = [];
   loadImage();
 }
+
 
 
 
@@ -237,6 +248,10 @@ function submitSurvey() {
       delete window[callbackName];
       
       if (result && result.status === "success") {
+        const group = getGroupFolder(participant.gender, participant.age);
+        const offset = getGroupOffset(group);
+        setGroupOffset(group, offset + SAMPLE_SIZE);
+        
         console.log("제출 성공");
         showPage("end-page");
         resolve(result);
