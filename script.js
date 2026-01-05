@@ -13,7 +13,7 @@ const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyWP7J6S7BkLVaU
 
 /*****************************************************/
 
-const SAMPLE_SIZE = 5;
+const SAMPLE_SIZE = 20;
 let currentImage = 0;
 let responses = [];
 let participant = { gender: "", age: "", job: "" };
@@ -105,7 +105,7 @@ async function initSurvey() {
       const nameB = b.split('/').pop();
       return nameA.localeCompare(nameB, undefined, { numeric: true });
     })
-    .slice(0, 5); // ✅ 그룹 내 앞에서 n장
+    .slice(0, SAMPLE_SIZE); // ✅ 그룹 내 앞에서 n장
 
   currentImage = 0;
   responses = [];
