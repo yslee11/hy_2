@@ -19,6 +19,7 @@ let responses = [];
 let participant = { gender: "", age: "", job: "" };
 let selectedImages = [];
 const userID = generateUserID();
+let isSubmitting = false;
 
 function generateUserID() {
   return 'xxxx-4xxx-yxxx-xxxx'.replace(/[xy]/g, c => {
@@ -193,7 +194,23 @@ async function nextQuestion() {
   });
 
   if (currentImage >= selectedImages.length - 1) {
-    await submitSurvey();
+
+  // 🚫 이미 제출 중이면 무시
+    if (isSubmitting) return;
+
+    isSubmitting = true;
+
+  // 버튼 비활성화
+    disableSurveyButtons();
+
+    try {
+      await submitSurvey();
+    } catch (e) {
+    // 제출 실패 시 다시 활성화
+      isSubmitting = false;
+      enableSurveyButtons();
+    }
+
     return;
   }
 
@@ -209,6 +226,20 @@ function prevQuestion() {
     responses.pop();
     loadImage();
   }
+}
+
+
+// 버튼 비활성화 / 활성화 함수 추가
+function disableSurveyButtons() {
+  document.getElementById("nextBtn").disabled = true;
+  document.getElementById("prevBtn").disabled = true;
+  document.getElementById("nextBtn").textContent = "제출 중...";
+}
+
+function enableSurveyButtons() {
+  document.getElementById("nextBtn").disabled = false;
+  document.getElementById("prevBtn").disabled = false;
+  document.getElementById("nextBtn").textContent = "다음";
 }
 
 // ✅ 수정된 제출 함수 - 완전한 JSONP 방식
