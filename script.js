@@ -39,34 +39,50 @@ function showPage(pageId) {
 
 // 이미지 목록 불러오기 (GitHub API)
 async function getImageList() {
+  const folder = getGroupFolder(participant.gender, participant.age);
+
   const api = `https://api.github.com/repos/${GITHUB.owner}/${GITHUB.repo}/git/trees/${GITHUB.branch}?recursive=1`;
   const res = await fetch(api);
   const data = await res.json();
 
   const exts = /\.(jpg|jpeg|png|webp)$/i;
+
   const images = data.tree
-    .filter(item => item.type === "blob" && item.path.startsWith(`${GITHUB.path}/`) && exts.test(item.path))
-    .map(item => `https://raw.githubusercontent.com/${GITHUB.owner}/${GITHUB.repo}/${GITHUB.branch}/${item.path}`);
-  
+    .filter(item =>
+      item.type === "blob" &&
+      item.path.startsWith(`${GITHUB.path}/${folder}/`) &&
+      exts.test(item.path)
+    )
+    .map(item =>
+      `https://raw.githubusercontent.com/${GITHUB.owner}/${GITHUB.repo}/${GITHUB.branch}/${item.path}`
+    );
+
   return images;
 }
+
 
 // 설문 초기화
 async function initSurvey() {
   const allImages = await getImageList();
 
-  // ✅ 파일명 기준 정렬 (001.jpg, 002.jpg ...)
-  selectedImages = allImages
-    .sort((a, b) => {
-      const nameA = a.split('/').pop();
-      const nameB = b.split('/').pop();
-      return nameA.localeCompare(nameB, undefined, { numeric: true });
-    })
-    .slice(0, SAMPLE_SIZE); // 앞에서부터 순차 사용
+  selectedImages = allImages.sort((a, b) => {
+    const nameA = a.split('/').pop();
+    const nameB = b.split('/').pop();
+    return nameA.localeCompare(nameB, undefined, { numeric: true });
+  });
 
   currentImage = 0;
   responses = [];
   await loadImage();
+}
+
+
+
+//폴더이름생성
+function getGroupFolder(gender, age) {
+  const g = gender === "남" ? "male" : "female";
+  const a = age.replace("대", ""); // "20대" → "20"
+  return `${g}_${a}`;
 }
 
 
@@ -125,7 +141,8 @@ async function nextQuestion() {
     gender: participant.gender,
     age: participant.age,
     imageID: getImageID(selectedImages[currentImage]),
-    score: parseInt(value)
+    score: parseInt(value),
+    group: getGroupFolder(participant.gender, participant.age)
   });
 
   if (currentImage >= selectedImages.length - 1) {
