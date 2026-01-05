@@ -68,6 +68,11 @@ async function getImageList() {
   const res = await fetch(api);
   const data = await res.json();
 
+  if (!data.tree) {
+    console.error("GitHub API 오류", data);
+    return [];
+  }
+
   const exts = /\.(jpg|jpeg|png|webp)$/i;
 
   const images = data.tree
@@ -84,20 +89,29 @@ async function getImageList() {
 }
 
 
+
 // 설문 초기화
 async function initSurvey() {
   const allImages = await getImageList();
 
-  selectedImages = allImages.sort((a, b) => {
-    const nameA = a.split('/').pop();
-    const nameB = b.split('/').pop();
-    return nameA.localeCompare(nameB, undefined, { numeric: true });
-  });
+  if (!allImages.length) {
+    alert("해당 그룹에 이미지가 없습니다.");
+    return;
+  }
+
+  selectedImages = allImages
+    .sort((a, b) => {
+      const nameA = a.split('/').pop();
+      const nameB = b.split('/').pop();
+      return nameA.localeCompare(nameB, undefined, { numeric: true });
+    })
+    .slice(0, SAMPLE_SIZE); // ✅ 그룹 내 앞에서 n장
 
   currentImage = 0;
   responses = [];
-  await loadImage();
+  loadImage();
 }
+
 
 
 
