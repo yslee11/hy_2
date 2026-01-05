@@ -99,18 +99,24 @@ async function initSurvey() {
     return;
   }
 
-  selectedImages = allImages
-    .sort((a, b) => {
-      const nameA = a.split('/').pop();
-      const nameB = b.split('/').pop();
-      return nameA.localeCompare(nameB, undefined, { numeric: true });
-    })
-    .slice(0, SAMPLE_SIZE); // ✅ 그룹 내 앞에서 n장
+  // ✅ 원본 보호: 복사본 생성
+  const sortedImages = [...allImages].sort((a, b) => {
+    const nameA = a.split('/').pop();
+    const nameB = b.split('/').pop();
+    return nameA.localeCompare(nameB, undefined, { numeric: true });
+  });
+
+  // ✅ 여기서만 20장으로 고정
+  selectedImages = sortedImages.slice(0, SAMPLE_SIZE);
+
+  console.log("🔥 최종 사용 이미지 수:", selectedImages.length);
+  console.log("🔥 이미지 목록:", selectedImages);
 
   currentImage = 0;
   responses = [];
   loadImage();
 }
+
 
 
 
