@@ -9,11 +9,11 @@ const GITHUB = {
 
 // Google Apps Script Web App URL 입력
 // ✅ Apps Script 코드를 수정한 후 새 배포 URL을 여기에 붙여넣으세요.
-const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyWP7J6S7BkLVaUChMCwAWcdu1jfEpGb0_l15ftqBk4bImJMVL6s4Iri7nkns6sNRZD/exec";
+const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxVhyss1Vy7m38lSHJVH1na6t3yeqJM1nWbs0BtVemJXGbsteMVm_Vp_bz1aA5L32zrqg/exec";
 
 /*****************************************************/
 
-const SAMPLE_SIZE = 20;
+const SAMPLE_SIZE = 5;
 let currentImage = 0;
 let responses = [];
 let participant = { gender: "", age: "", job: "" };
