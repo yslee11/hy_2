@@ -78,13 +78,52 @@
     <img id="survey-image" alt="보행환경 이미지" class="survey-img" />
     
     <form id="score-form">
-      <div class="scale">
-        <label><input type="radio" name="score" value="1">1</label>
-        <label><input type="radio" name="score" value="2">2</label>
-        <label><input type="radio" name="score" value="3">3</label>
-        <label><input type="radio" name="score" value="4">4</label>
-        <label><input type="radio" name="score" value="5">5</label>
+    <form id="score-form">
+
+      <div class="metric">
+        <p>① 이 장소는 <b>심미적으로 쾌적</b>해 보인다</p>
+        <div class="scale">
+          <label><input type="radio" name="aesthetic" value="1">1</label>
+          <label><input type="radio" name="aesthetic" value="2">2</label>
+          <label><input type="radio" name="aesthetic" value="3">3</label>
+          <label><input type="radio" name="aesthetic" value="4">4</label>
+          <label><input type="radio" name="aesthetic" value="5">5</label>
+        </div>
       </div>
+    
+      <div class="metric">
+        <p>② 이 장소는 <b>보행하기 편리</b>해 보인다</p>
+        <div class="scale">
+          <label><input type="radio" name="walkability" value="1">1</label>
+          <label><input type="radio" name="walkability" value="2">2</label>
+          <label><input type="radio" name="walkability" value="3">3</label>
+          <label><input type="radio" name="walkability" value="4">4</label>
+          <label><input type="radio" name="walkability" value="5">5</label>
+        </div>
+      </div>
+
+      <div class="metric">
+        <p>③ 이 장소는 <b>우울한 느낌</b>을 준다</p>
+        <div class="scale">
+          <label><input type="radio" name="depression" value="1">1</label>
+          <label><input type="radio" name="depression" value="2">2</label>
+          <label><input type="radio" name="depression" value="3">3</label>
+          <label><input type="radio" name="depression" value="4">4</label>
+          <label><input type="radio" name="depression" value="5">5</label>
+        </div>
+      </div>
+
+      <div class="metric">
+        <p>④ 이 장소는 <b>교통사고로부터 안전</b>해 보인다</p>
+        <div class="scale">
+          <label><input type="radio" name="safety" value="1">1</label>
+          <label><input type="radio" name="safety" value="2">2</label>
+          <label><input type="radio" name="safety" value="3">3</label>
+          <label><input type="radio" name="safety" value="4">4</label>
+          <label><input type="radio" name="safety" value="5">5</label>
+        </div>
+      </div>
+
     </form>
     <div class="buttons">
       <button type="button" id="prevBtn">이전</button>
