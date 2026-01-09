@@ -9,7 +9,7 @@ const GITHUB = {
 
 // Google Apps Script Web App URL 입력
 // ✅ Apps Script 코드를 수정한 후 새 배포 URL을 여기에 붙여넣으세요.
-const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyiu5wvHV2y-LbYgbV8EGbGXlzP0oKwQEyQj7kzybH8Rz0WJF1j7CAZoGp-V9m3SHpR/exec";
+const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbziXMt-dEUJHQbPPdboWf7pxE9tTYgzGDEpaIY-18BhCOiAginPxsyfHmoNgsqdONHEWA/exec";
 
 /*****************************************************/
 
@@ -187,10 +187,12 @@ async function nextQuestion() {
     timestamp: new Date().toISOString(),
     imageID: getImageID(selectedImages[currentImage]),
     group: getGroupFolder(participant.gender, participant.age),
-    aesthetic: scores.aesthetic,
+    beauty: scores.beauty,
+    attractivity: scores.attractivity,
+    liveliness: scores.liveliness,
     walkability: scores.walkability,
-    depression: scores.depression,
-    safety: scores.safety
+    safety: scores.safety,
+    comfort: scores.comfort
   });
 
   if (currentImage >= selectedImages.length - 1) {
