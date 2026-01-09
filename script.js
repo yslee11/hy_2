@@ -9,7 +9,7 @@ const GITHUB = {
 
 // Google Apps Script Web App URL 입력
 // ✅ Apps Script 코드를 수정한 후 새 배포 URL을 여기에 붙여넣으세요.
-const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbziXMt-dEUJHQbPPdboWf7pxE9tTYgzGDEpaIY-18BhCOiAginPxsyfHmoNgsqdONHEWA/exec";
+const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxAhWr8_LgY4ot3dXAZMxiwMIrb72zCr7U6t63qweuFX9Ma0QdwZoyY1n1zsx50OoEe/exec";
 
 /*****************************************************/
 
@@ -41,7 +41,7 @@ function setGroupOffset(group, value) {
 
 //점수 수집 함수
 function getScores() {
-  const metrics = ["aesthetic", "walkability", "depression", "safety"];
+  const metrics = ["beauty", "attractivity", "liveliness", "walkability", "safety", "comfort"];
   const scores = {};
 
   for (const m of metrics) {
